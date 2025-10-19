@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="referrer" content="no-referrer" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tic Tac Toe Online</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <section class="card join">
+        <h1>Tic Tac Toe</h1>
+        <div class="row">
+          <label>Jouw naam</label>
+          <input id="name" type="text" maxlength="24" placeholder="Naam" />
+        </div>
+        <div class="row">
+          <label>Room code</label>
+          <input id="room" type="text" maxlength="20" placeholder="Bijv. abc123" />
+        </div>
+        <div class="row actions">
+          <button id="createBtn">Nieuwe room</button>
+          <button id="joinBtn">Join room</button>
+        </div>
+        <p class="hint">Deel de room code met je tegenstander</p>
+        <p id="error" class="error"></p>
+      </section>
+
+      <section class="game hidden">
+        <div class="topbar">
+          <div>
+            <strong>Room</strong> <span id="roomLabel"></span>
+          </div>
+          <div class="players">
+            <span id="playersLabel"></span>
+          </div>
+        </div>
+
+        <div class="board-and-chat">
+          <div class="board" id="board">
+            <!-- 9 cells -->
+          </div>
+
+          <aside class="chat">
+            <div class="chat-header">
+              <strong>Chat</strong>
+              <div id="youAre"></div>
+            </div>
+            <div id="chatList" class="chat-list"></div>
+            <form id="chatForm" class="chat-form">
+              <input id="chatInput" type="text" placeholder="Typ een bericht" maxlength="300" />
+              <button type="submit">Stuur</button>
+            </form>
+          </aside>
+        </div>
+
+        <div class="statusbar">
+          <div id="status"></div>
+          <button id="resetBtn">Opnieuw</button>
+        </div>
+      </section>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="client.js" type="module"></script>
+  </body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "name": "tictactoe-online",
+  "version": "1.0.0",
+  "description": "Online Tic Tac Toe met rooms, chat en server-validatie",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "dependencies": {
+    "compression": "1.7.5",
+    "dotenv": "16.4.5",
+    "express": "4.19.2",
+    "helmet": "7.1.0",
+    "socket.io": "4.7.5",
+    "uuid": "11.0.3"
+  }
+}
