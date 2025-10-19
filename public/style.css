@@ -6,7 +6,6 @@
   --accent: #4da3ff;
   --line: #232838;
   --win: #2ecc71;
-  --lose: #e74c3c;
 }
 
 * { box-sizing: border-box; }
@@ -76,17 +75,37 @@ button:hover { filter: brightness(1.05); }
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
+
+/* cell basis */
 .cell {
   aspect-ratio: 1;
   background: #0e1220;
   border: 1px solid var(--line);
   border-radius: 12px;
   display: grid; place-items: center;
-  font-size: 42px; font-weight: 800;
+  font-size: 44px; font-weight: 900; letter-spacing: 1px;
   cursor: pointer;
   user-select: none;
+  transition: background .15s ease, border-color .15s ease, transform .05s ease;
 }
-.cell.disabled { cursor: not-allowed; opacity: 0.7; }
+.cell:active { transform: scale(0.98); }
+.cell.disabled { cursor: not-allowed; opacity: 0.8; }
+
+/* Teamkleuren, hoog contrast */
+.cell.X {
+  color: #4da3ff;
+  text-shadow: 0 0 8px rgba(77,163,255,0.55), 0 0 2px rgba(77,163,255,0.9);
+}
+.cell.O {
+  color: #ff5f87;
+  text-shadow: 0 0 8px rgba(255,95,135,0.55), 0 0 2px rgba(255,95,135,0.9);
+}
+
+/* Hover als het vakje nog leeg is en je mag spelen */
+.cell:not(.disabled):hover {
+  background: #1b2030;
+  border-color: #4da3ff80;
+}
 
 .chat {
   background: var(--card);
@@ -116,5 +135,5 @@ button:hover { filter: brightness(1.05); }
   padding: 12px 16px; background: var(--card); border: 1px solid var(--line); border-radius: 12px;
 }
 #status { color: var(--muted); }
-.win { color: var(--win); }
-.draw { color: var(--accent); }
+.win { color: var(--win); font-weight: 700; }
+.draw { color: var(--accent); font-weight: 700; }

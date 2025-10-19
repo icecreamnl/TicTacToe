@@ -27,7 +27,7 @@ const youAre = $("#youAre");
 let me = { name: "", roomId: "", symbol: null };
 let state = { board: Array(9).fill(null), next: "X", winner: null, players: [] };
 
-// Bouw 9 cellen
+// bouw 9 cellen
 for (let i = 0; i < 9; i++) {
   const c = document.createElement("button");
   c.className = "cell";
@@ -39,12 +39,17 @@ function render() {
   // board
   $$(".cell").forEach(cell => {
     const idx = Number(cell.dataset.index);
-    cell.textContent = state.board[idx] || "";
+    const val = state.board[idx];
+    cell.textContent = val || "";
+    // kleurklassen resetten en opnieuw zetten
+    cell.classList.remove("X", "O");
+    if (val === "X" || val === "O") cell.classList.add(val);
+
     const canPlay = !state.winner && me.symbol === state.next && !state.board[idx];
     cell.classList.toggle("disabled", !canPlay);
   });
 
-  // spelers
+  // spelerslabel
   playersLabel.textContent = state.players.map(p => `${p.name} ${p.symbol}`).join("  ");
 
   // status
@@ -119,7 +124,7 @@ chatForm.addEventListener("submit", e => {
 
 socket.on("room:state", payload => {
   state = payload;
-  // update mijn symbool uit de playerslijst
+  // bepaal mijn symbool op basis van naam
   const mine = state.players.find(p => p.name === me.name);
   me.symbol = mine ? mine.symbol : me.symbol;
   render();

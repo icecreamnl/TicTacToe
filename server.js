@@ -32,18 +32,8 @@ const io = new Server(server, {
 
 const PORT = process.env.PORT || 3000;
 
-// In-memory room state
-// rooms[roomId] = {
-//   players: { socketId: { name, symbol } },
-//   board: Array(9).fill(null),
-//   next: "X",
-//   winner: null,
-//   createdAt: Date.now(),
-//   chat: [{id, name, msg, ts}],
-// }
 const rooms = Object.create(null);
 
-// Helpers
 function cleanName(name) {
   return String(name || "")
     .trim()
@@ -61,9 +51,9 @@ function newBoard() {
 
 function checkWinner(board) {
   const lines = [
-    [0,1,2],[3,4,5],[6,7,8], // rows
-    [0,3,6],[1,4,7],[2,5,8], // cols
-    [0,4,8],[2,4,6]          // diagonals
+    [0,1,2],[3,4,5],[6,7,8],
+    [0,3,6],[1,4,7],[2,5,8],
+    [0,4,8],[2,4,6]
   ];
   for (const [a,b,c] of lines) {
     if (board[a] && board[a] === board[b] && board[a] === board[c]) {
@@ -80,7 +70,7 @@ function safeRoomState(room) {
     board: room.board,
     next: room.next,
     winner: room.winner,
-    chat: room.chat.slice(-50) // laatste 50
+    chat: room.chat.slice(-50)
   };
 }
 
@@ -91,7 +81,6 @@ function assignSymbol(room) {
   return null;
 }
 
-// Garbage collector
 setInterval(() => {
   const now = Date.now();
   for (const [roomId, room] of Object.entries(rooms)) {
@@ -160,7 +149,6 @@ io.on("connection", socket => {
     if (room.board[index]) return;
     if (player.symbol !== room.next) return;
 
-    // Server schrijft de zet
     room.board[index] = player.symbol;
     room.next = room.next === "X" ? "O" : "X";
     room.winner = checkWinner(room.board);
@@ -197,7 +185,6 @@ io.on("connection", socket => {
     const room = rooms[currentRoomId];
     if (!room) return;
     delete room.players[socket.id];
-    // Reset spel als er minder dan 2 spelers zijn
     if (Object.keys(room.players).length < 2) {
       room.board = newBoard();
       room.next = "X";
@@ -211,6 +198,7 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true, rooms: Object.keys(rooms).length });
 });
 
+const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
   console.log(`TicTacToe draait op http://localhost:${PORT}`);
 });
